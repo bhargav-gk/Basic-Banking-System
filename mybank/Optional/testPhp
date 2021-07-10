@@ -1,0 +1,180 @@
+#Test01 Php
+<?php
+$host="localhost";
+$user="root";
+$password="";
+
+$con=mysql_connect($host,$user,$password);
+if(!$con){
+    echo '<h1>Connected to MySql</h1>';
+    
+ }
+else
+{
+     echo '<h1> MySQL server is not connected</h1>';
+ }
+
+?>
+----------------------------------------------------------------------
+#Test02 Php
+<?php
+$host="localhost";
+$user="root";
+$password="";
+
+$con=mysql_connect($host,$user,$password);
+if(!$con){
+    echo '<h1>Connected to MySql</h1>';
+
+    //select the database
+    $db=mysql_select_db("dbname",$con);
+    $query=mysql_query("query",$db);
+}
+else{
+    echo '<h1>MySql Server not connected</h1>';
+}
+
+?>
+
+-----------------------------------------------------------------------------------------------------------------
+//creating database
+$sql="CREATE DATABASE myDB";
+#if($conn->query($sql)==TRUE){
+    echo "Database created successfully";
+}
+#else{
+    echo "Error creating database:".$conn->error;
+}
+
+------------------------------------------------------------------------------------------------------------
+full snippet
+
+<?php
+
+$servername="localhost";
+$username="root";
+$password="";
+$dbname="myDB";
+
+$conn=new mysqli($servername,$username,$password,$dbname);
+
+if($conn->connect_error){
+    die("Connection failed: ".$conn->connect_error);
+}
+
+$sql1="create table MyGuests(
+    id int(6) unsigned auto_increment primary key,
+    firstname varchar(30) not null,
+    lastname varchar(30) not null,
+    email varchar(30),
+    reg_date timestamp default current_timestamp on update current_timestamp
+
+    )";
+
+    if($conn->query($sql1)===TRUE){
+        echo "Table created successfully";
+    }
+    else{
+        echo "Error creating table".$conn->error;
+    }
+
+#echo "<h1>Connected successfully.</h1>";
+#echo "Jai Sri Ram ";
+
+$conn->close();
+?>
+
+------------------------------------------------------------------------------------------------------------
+
+
+#Prepared statements:
+<?php
+//Prepared statement execution
+
+$servername="localhost";
+$username="root";
+$password="";
+$dbname="myDB";
+
+#create connection
+$conn=new mysqli($servername,$username,$password,$dbname);
+
+//check connection
+if($conn->connect_error){
+    die("Connection failed: ".$conn->connect_error);
+}
+
+//Prepare and bind
+$stmt=$conn->prepare("insert into MyGuests (firstname,lastname,email) values (?,?,?)");
+$stmt->bind_param("sss",$firstname,$lastname,$email);
+
+//set parameters and execute
+$firstname="Brad";
+$lastname="Pitt";
+$email="bradleywilliampitt@gmail.com";
+$stmt->execute();
+
+$firstname="Ryan";
+$lastname="reynolds";
+$email="ryanrey@gmail.com";
+$stmt->execute();
+
+$firstname="Kamal";
+$lastname="Kumar";
+$email="kamalkumar@gmail.com";
+$stmt->execute();
+
+echo "New records created successfully";
+
+$stmt->close();
+$conn->close();
+
+?>
+
+------------------------------------------------------------------------------------------------------------
+
+# Inserting single records<?php
+
+$servername="localhost";
+$username="root";
+$password="";
+$dbname="myDB";
+
+$conn=new mysqli($servername,$username,$password,$dbname);
+
+if($conn->connect_error){
+    die("Connection failed: ".$conn->connect_error);
+}
+
+$sql1="insert into MyGuests (firstname,lastname,email)
+    values ('Tommy','Cruise','tomcruise@gmail.com')";
+
+    if($conn->query($sql1)===TRUE){
+        echo "New record added successfully";
+    }
+    else{
+        echo "Error ".$sql1."<br>".$conn->error;
+    }
+
+#echo "<h1>Connected successfully.</h1>";
+#echo "Jai Sri Ram ";
+
+$conn->close();
+?>
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------
